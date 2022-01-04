@@ -1,0 +1,6 @@
+[submodule "my-page"]
+	path = my-page
+	url = git@github.com:qzr-blog/my-page.git
+[submodule "blog-egg"]
+	path = blog-egg
+	url = git@github.com:qzr-blog/blog-egg.git
