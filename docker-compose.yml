@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+  pageMongoV0:
+    container_name: pageMongoV0
+    image: mongo:3.4
+    # restart: always
+    volumes:        #挂载当前的data目录到容器默认mysql存储目录
+      - ./mongo/db:/data/db
+      - ./mongo/dump:/data/dump
+    environment:                        #环境变量
+      # MONGO_INITDB_ROOT_USERNAME: qzr
+      # MONGO_INITDB_ROOT_PASSWORD: 888888
+      TZ: Asia/Shanghai
+    ports:
+      - "27017:27017"
+    networks:
+      - pageEndV0
+
+  pageAppV0:
+    container_name: pageAppV0
+    # restart: always
+    image: constq/page-blog:back-v0
+    ports: 
+      - "7001:7001"
+    depends_on:
+      - pageMongoV0
+    networks:
+      - pageFrontV0
+      - pageEndV0
+
+  pageWebV0:
+    container_name: pageWebV0
+    # restart: always
+    image: constq/page-blog:front-v0
+    ports:
+      - "9001:9001"
+    networks:
+      - pageFrontV0
+    depends_on:
+      - pageAppV0
+
+networks:
+  pageFrontV0:
+  pageEndV0:
